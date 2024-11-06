@@ -36,12 +36,7 @@ jobs:
               id: init
               run: "packer init ./image.pkr.hcl"
             
-            # Step 4 - Packer validate
-            - name: Run `packer validate`
-              id: validate
-              run: "packer validate ./image.pkr.hcl"
-
-            # Step 5 - Decalre ENV variables
+            # Step 4 - Decalre ENV variables
             - name: Script
               run: |
                 sudo cat > setup.sh <<EOF
@@ -51,14 +46,14 @@ jobs:
                 export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
                 EOF
 
-            # Step 6 - Setup AWS CLI
+            # Step 5 - Setup AWS CLI
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
                 aws-region: ${{ env.AWS_REGION }}
 
-            # Step 7 - Packer build
+            # Step 6 - Packer build
             - name: Run `packer build`
               run: packer build -color=false -on-error=abort -var "vpc_id=${{ secrets.VPC_ID }}" -var "subnet_id=${{ secrets.SUBNET_ID }}" -var "version=${{ github.ref }}" ./image.pkr.hcl
     
