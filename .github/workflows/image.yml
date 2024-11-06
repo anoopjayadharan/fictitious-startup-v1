@@ -1,4 +1,4 @@
-name: Custom-AMI
+name: private_ami
 
 on:
     workflow_dispatch:
