@@ -44,7 +44,7 @@ source "amazon-ebs" "ubuntu" {
 }
 
 build {
-  name = "Custom-AMI"
+  name = "custom_ami"
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
@@ -54,9 +54,9 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "echo Moving files from /tmp directory...",
+      "echo Moving files...",
       "sudo mkdir -p /opt/app",
-      "sudo mv /tmp/*  /opt/app",
+      "sudo mv /tmp/* /opt/app",
     ]
   }
   post-processor "amazon-ami-management" {
