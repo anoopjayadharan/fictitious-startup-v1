@@ -36,10 +36,11 @@ jobs:
               id: init
               run: "packer init ./image.pkr.hcl"
             
-            # Step 4 - Decalre ENV variables
+            # Step 4 - Decalre Environment variables
             - name: Script
               run: |
-                sudo cat > setup.sh <<EOF
+                pwd
+                sudo cat > ${{ GITHUB_WORKSPACE }}/setup.sh <<EOF
                 #!/bin/bash
                 export SECRET_KEY='${{ secrets.SECRET_KEY }}'
                 export DB_USER='${{ secrets.DB_USER }}'
