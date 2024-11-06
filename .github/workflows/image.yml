@@ -38,7 +38,6 @@ jobs:
             # Step 4 - Decalre Environment variables
             - name: Script
               run: |
-                pwd
                 sudo cat > secrets.sh <<EOF
                 #!/bin/bash
                 export SECRET_KEY='${{ secrets.SECRET_KEY }}'
