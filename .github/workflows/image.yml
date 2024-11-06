@@ -55,5 +55,5 @@ jobs:
 
             # Step 6 - Packer build
             - name: Run `packer build`
-              run: packer build -color=false -on-error=abort -var "vpc_id=${{ secrets.VPC_ID }}" -var "subnet_id=${{ secrets.SUBNET_ID }}" -var "version=${{ github.ref }}" ./image.pkr.hcl
+              run: packer build -color=false -on-error=abort -var "vpc_id=${{ secrets.VPC_ID }}" -var "subnet_id=${{ secrets.SUBNET_ID }}" -var "version=${{ github.ref_name }}" ./image.pkr.hcl
     
