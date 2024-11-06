@@ -1,0 +1,11 @@
+name: Custom-AMI
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    build_image:
+        name: Build Image using Packer
+        runs-on: ubuntu-latest
+    
