@@ -1,7 +1,6 @@
 name: private_ami
 
 on:
-    workflow_dispatch:
     release:
         types: [published]
 
@@ -11,7 +10,7 @@ env:
 
 jobs:
     build_image:
-        name: Custom AMI build using Packer
+        name: packer build
         runs-on: ubuntu-latest
 
         # Permissions to create the OIDC JWT
