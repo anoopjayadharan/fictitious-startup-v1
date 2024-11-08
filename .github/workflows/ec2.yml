@@ -1,4 +1,4 @@
-name: Launch Instance
+name: launch_ec2
 
 on:
     workflow_dispatch:      # manual trigger
@@ -10,6 +10,9 @@ jobs:
     launch_ec2:
         name: Launch EC2
         runs-on: ubuntu-latest
+        defaults:
+            run:
+              working-directory: terraform
         steps:
 
             # Step 1 - Checkout Repository
