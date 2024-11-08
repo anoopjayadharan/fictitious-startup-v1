@@ -19,7 +19,7 @@ resource "aws_iam_role" "ec2_ssm" {
 EOF
 }
 # Attaches 'AmazonSSMManagedInstanceCore' policy to the 'ConnectEC2' role
-resource "aws_iam_role_policy_attachment" "test-attach" {
+resource "aws_iam_role_policy_attachment" "policy-attach" {
   role       = aws_iam_role.ec2_ssm.name
   policy_arn = var.policy_arn
 }
