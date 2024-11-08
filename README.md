@@ -1,6 +1,6 @@
 # Fictitious Startup v1
 
-[![private_ami](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/image.yml/badge.svg)](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/image.yml)
+[![private_ami](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/image.yml/badge.svg)](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/image.yml)       [![launch_ec2](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/ec2.yml/badge.svg)](https://github.com/anoopjayadharan/fictitious-startup-v1/actions/workflows/ec2.yml)
 
 Welcome to the project "Fictitious Startup v1" designed for participants of the [AWS DevOps Bootcamp](https://www.skool.com/cloudtalents/about) offered by the Cloud Talents community!
 
