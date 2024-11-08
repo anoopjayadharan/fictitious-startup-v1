@@ -1,0 +1,6 @@
+region       = "eu-west-1"
+environment  = "development"
+project_name = "cloudTalents"
+ec2_name     = "webserver-prd"
+az           = "eu-west-1a"
+sg_name      = "allow_http"
