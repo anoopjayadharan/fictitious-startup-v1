@@ -1,0 +1,40 @@
+name: Launch Instance
+
+on:
+    workflow_dispatch:      # manual trigger
+        inputs:             # provide ami_version as an input
+            ami_version:
+                description: 'AMI version'
+                required: true
+jobs:
+    launch_ec2:
+        name: Launch EC2
+        runs-on: ubuntu-latest
+        steps:
+
+            # Step 1 - Checkout Repository
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            # Step 2 - Install terraform '1.9.8'
+            - name: Terraform Workflow
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: "1.9.8"
+                cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}     # API_TOKEN for HCP Terrafom
+
+            # Step 3 - Terraform init
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            # Step 4 - Terraform plan
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan -no-color
+              continue-on-error: true
+
+            # Step 5 - Terraform apply, set variable ami_version
+            - name: Terraform Apply
+              id: Apply
+              run: terraform apply -var "custom_ami_version=${{ inputs.ami_version }}" -auto-approve
