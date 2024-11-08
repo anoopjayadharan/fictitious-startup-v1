@@ -34,7 +34,7 @@ jobs:
             # Step 4 - Terraform plan
             - name: Terraform Plan
               id: plan
-              run: terraform plan -no-color
+              run: terraform plan -var "custom_ami_version=${{ inputs.ami_version }}" -no-color
               continue-on-error: true
 
             # Step 5 - Terraform apply, set variable ami_version
