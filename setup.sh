@@ -19,8 +19,7 @@ sudo chown -R ubuntu $APP_DIR
 # 
 # Relevant link: https://ubuntu.com/server/docs/package-management
 #################################################################################################
-sudo apt update
-sudo apt install -y nginx \
+sudo apt update && sudo apt install -y nginx \
  postgresql \
  postgresql-contrib \
  python3-pip \
@@ -68,8 +67,8 @@ sudo sed -i 's\REPLACE_DATABASE_PASSWORD\'$DB_PASSWORD'\g' $APP_DIR/cloudtalents
 #
 # Relevant link: https://www.liquidweb.com/blog/how-to-setup-a-python-virtual-environment-on-ubuntu-18-04/
 #################################################################################################
-python3 -m venv app
-source app/bin/activate
+python3 -m venv ~/app
+source ~/app/bin/activate
 
 #################################################################################################
 # Install the Python dependencies listed in requirements.txt
