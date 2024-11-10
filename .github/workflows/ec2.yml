@@ -41,3 +41,8 @@ jobs:
             - name: Terraform Apply
               id: Apply
               run: terraform apply -var "custom_ami_version=${{ inputs.ami_version }}" -auto-approve
+
+            # Step 6 - GiHub step summary
+            - name: Step Summary
+              run: |
+                echo "URL=http://"($(terraform output ec2_public_ip | tr -d '""')")" >> $GITHUB_STEP_SUMMARY
