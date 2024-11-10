@@ -45,4 +45,5 @@ jobs:
             # Step 6 - GiHub step summary
             - name: Step Summary
               run: |
-                echo "URL=http://"($(terraform output ec2_public_ip | tr -d '""')")" >> $GITHUB_STEP_SUMMARY
+                echo URL="http://$(terraform output ec2_public_ip | tr -d '""')" >> $GITHUB_STEP_SUMMARY
+
