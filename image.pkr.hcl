@@ -42,6 +42,9 @@ source "amazon-ebs" "ubuntu" {
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
 }
+tags = {
+  Amazon_AMI_Management_Identifier = local.ami_name
+}
 
 build {
   name = "custom_ami"
