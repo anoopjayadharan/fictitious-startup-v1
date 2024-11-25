@@ -35,24 +35,14 @@ jobs:
               id: init
               run: "packer init ./image.pkr.hcl"
             
-            # Step 4 - Decalre Environment variables
-            - name: Script
-              run: |
-                sudo cat > secrets.sh <<EOF
-                #!/bin/bash
-                export SECRET_KEY='${{ secrets.SECRET_KEY }}'
-                export DB_USER='${{ secrets.DB_USER }}'
-                export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
-                EOF
-
-            # Step 5 - Setup AWS CLI
+            # Step 4 - Setup AWS CLI
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
                 aws-region: ${{ env.AWS_REGION }}
 
-            # Step 6 - Packer build
+            # Step 5 - Packer build
             - name: Run `packer build`
               run: packer build -color=false -on-error=abort -var "vpc_id=${{ secrets.VPC_ID }}" -var "subnet_id=${{ secrets.SUBNET_ID }}" -var "version=${{ github.ref_name }}" ./image.pkr.hcl
     
