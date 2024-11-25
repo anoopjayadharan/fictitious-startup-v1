@@ -40,6 +40,7 @@ resource "aws_dms_replication_subnet_group" "rp_subnet_grp" {
 
 # Creates a new replication instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {
+  count                       = 0
   allocated_storage           = 10
   apply_immediately           = true
   multi_az                    = false
@@ -107,10 +108,11 @@ resource "aws_dms_endpoint" "rds" {
 
 # Create a new DMS replication task
 resource "aws_dms_replication_task" "dblink" {
+  count          = 0
   migration_type = "full-load"
 
   #replication_instance_arn = "${aws_dms_replication_instance.link.replication_instance_arn}"
-  replication_instance_arn = aws_dms_replication_instance.dms_replication_instance.replication_instance_arn
+  replication_instance_arn = aws_dms_replication_instance.dms_replication_instance[count.index].replication_instance_arn
   replication_task_id      = var.replication_task_id
   source_endpoint_arn      = aws_dms_endpoint.ec2.endpoint_arn
   table_mappings           = file("table-mappings.json")
