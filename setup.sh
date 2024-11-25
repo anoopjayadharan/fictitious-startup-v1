@@ -18,8 +18,8 @@ sudo chown -R ubuntu $APP_DIR
 # Relevant link: https://ubuntu.com/server/docs/package-management
 #################################################################################################
 sudo apt update && sudo apt install -y nginx \
- python3-pip \
- python3-venv 
+python3-pip \
+python3-venv
 
 #################################################################################################
 # Create a Python virtual environment in the current directory and activate it
