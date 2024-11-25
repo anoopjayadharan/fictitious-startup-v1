@@ -19,3 +19,9 @@ variable "ec2_name" {
 variable "sg_name" {}
 variable "az" {}
 variable "policy_arn" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "secret_key" {}
+variable "sg_postgres" {}
+variable "replication_task_id" {}
+variable "s3_name" {}

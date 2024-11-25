@@ -62,6 +62,15 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
   to_port           = 80
 }
 
+# Creates an inbound rule to allow postgres from DMS
+resource "aws_vpc_security_group_ingress_rule" "allow_postgres_dms" {
+  security_group_id            = aws_security_group.allow_http.id
+  referenced_security_group_id = aws_security_group.sg_dms_rp_instance.id
+  from_port                    = 5432
+  ip_protocol                  = "tcp"
+  to_port                      = 5432
+}
+
 # Creates an outboud rule to allow all traffic
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.allow_http.id
