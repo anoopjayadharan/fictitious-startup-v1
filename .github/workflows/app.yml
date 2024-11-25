@@ -1,4 +1,4 @@
-name: launch_ec2
+name: app_deploy
 
 on:
     workflow_dispatch:      # manual trigger
@@ -7,8 +7,8 @@ on:
                 description: 'AMI version'
                 required: true
 jobs:
-    launch_ec2:
-        name: Launch EC2
+    lapp_deploy:
+        name: app_deploy
         runs-on: ubuntu-latest
         defaults:
             run:
