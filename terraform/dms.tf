@@ -40,7 +40,7 @@ resource "aws_dms_replication_subnet_group" "rp_subnet_grp" {
 
 # Creates a new replication instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {
-  count                       = 0
+  count                       = 0           # prevent dms replication instance creation as migration is complete
   allocated_storage           = 10
   apply_immediately           = true
   multi_az                    = false
@@ -108,7 +108,7 @@ resource "aws_dms_endpoint" "rds" {
 
 # Create a new DMS replication task
 resource "aws_dms_replication_task" "dblink" {
-  count          = 0
+  count          = 0                  # prevent dms replication task creation as migration is complete
   migration_type = "full-load"
 
   #replication_instance_arn = "${aws_dms_replication_instance.link.replication_instance_arn}"
