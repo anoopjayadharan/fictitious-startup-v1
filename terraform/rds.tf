@@ -25,7 +25,7 @@ resource "aws_db_instance" "rds_psql" {
   db_name                = "mvp"
   db_subnet_group_name   = aws_db_subnet_group.subnet_group.name
   engine                 = "postgres"
-  engine_version         = "16.3"
+  engine_version         = "16.4"
   instance_class         = "db.t3.micro"
   username               = var.db_username
   password               = var.db_password
