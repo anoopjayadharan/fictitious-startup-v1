@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 import boto3
 
@@ -30,7 +31,7 @@ SECRET_KEY = ssm.get_parameter(Name=f"{SSM_PARAMETER_NAMESPACE}/secret_key", Wit
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOST_LIST", "*").split(",")
 
 
 # Application definition
@@ -43,7 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,7 +137,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+("js", os.path.join(STATIC_ROOT, 'js')),
+("css", os.path.join(STATIC_ROOT, 'css')),
+("images", os.path.join(STATIC_ROOT, 'images')),
+("fonts", os.path.join(STATIC_ROOT, 'fonts')),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -141,5 +160,27 @@ MEDIA_ROOT = '/'
 
 LOGIN_REDIRECT_URL = '/images/'
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "/opt/app/debug.log",
+        },
+    },
+    "root": {
+        "handlers": ["file"],
+        "level": "DEBUG",
+    },
+}
 
-STORAGES = {"default": {"BACKEND": "startup.storages.PublicMediaStorage"}}
+STORAGES = {
+    "default": {
+        "BACKEND": "startup.storages.PublicMediaStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "startup.storages.PublicMediaStorage",
+    },
+}

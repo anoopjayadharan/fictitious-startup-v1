@@ -1,9 +1,21 @@
+import logging
+import time
+import math
+import multiprocessing
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
 from .forms import UserRegistrationForm, ImageUploadForm
 from .models import Image
+from .serializers import ImageSerializer
+
+logger = logging.getLogger(__name__)
 
 # Home Page View
 def home(request):
@@ -58,3 +70,30 @@ def upload_image(request):
 def image_list(request):
     images = Image.objects.filter(user=request.user)
     return render(request, 'image_list.html', {'images': images})
+
+def generate_cpu_load(interval=int(2),utilization=int(2)):
+    "Generate a utilization % for a duration of interval seconds"
+    start_time = time.time()
+    for _ in range(0,int(interval)):
+        logger.debug("About to do some arithmetic")
+        while time.time()-start_time < utilization/100.0:
+            math.sqrt(64)
+        start_time += 1
+
+
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.none()
+    serializer_class = ImageSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            raise
+        processes = []
+        for _ in range (multiprocessing.cpu_count()):
+            p = multiprocessing.Process(target =generate_cpu_load)
+            p.start()
+            processes.append(p)
+        for process in processes:
+            process.join()
+        return Image.objects.filter(user=self.request.user)

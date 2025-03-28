@@ -18,7 +18,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+
+from startup.views import ImageViewSet
+
+router = routers.DefaultRouter()
+router.register(r"image", ImageViewSet)
+
+
 urlpatterns = [
+    path("api/", include(router.urls)),
+    path("auth/", obtain_auth_token),
     path('', include('startup.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # Add authentication URLs
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
