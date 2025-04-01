@@ -28,6 +28,6 @@ resource "aws_autoscaling_group" "startup_asg" {
 
   launch_template {
     id      = aws_launch_template.startup_template.id
-    version = var.custom_ami_version
+    version = "$Latest"
   }
 }
