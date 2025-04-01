@@ -26,20 +26,20 @@ data "tfe_outputs" "network" {
 }
 
 # Creates an ec2 instance using the imported AMI
-resource "aws_instance" "web_server" {
-  ami                         = data.aws_ami.custom_ami.id
-  instance_type               = "t2.micro"
-  availability_zone           = var.az
-  subnet_id                   = data.tfe_outputs.network.values.public_subnet[1]
-  associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.allow_http.id]
-  iam_instance_profile        = aws_iam_instance_profile.connectEC2_profile.name
+# resource "aws_instance" "web_server" {
+#   ami                         = data.aws_ami.custom_ami.id
+#   instance_type               = "t2.micro"
+#   availability_zone           = var.az
+#   subnet_id                   = data.tfe_outputs.network.values.public_subnet[1]
+#   associate_public_ip_address = true
+#   vpc_security_group_ids      = [aws_security_group.allow_http.id]
+#   iam_instance_profile        = aws_iam_instance_profile.connectEC2_profile.name
 
-  tags = merge(local.tags,
-    {
-      Name = var.ec2_name
-  })
-}
+#   tags = merge(local.tags,
+#     {
+#       Name = var.ec2_name
+#   })
+# }
 
 # Creates security group
 resource "aws_security_group" "allow_http" {

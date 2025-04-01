@@ -12,12 +12,13 @@ resource "aws_launch_template" "startup_template" {
   }
   network_interfaces {
     associate_public_ip_address = true
+    security_groups             = ["${aws_security_group.allow_http.id}"]
   }
   placement {
     availability_zone = var.az
   }
 
-  vpc_security_group_ids = [aws_security_group.allow_http.id]
+  #  vpc_security_group_ids = [aws_security_group.allow_http.id]
 
 }
 
@@ -25,9 +26,12 @@ resource "aws_launch_template" "startup_template" {
 resource "aws_autoscaling_group" "startup_asg" {
   max_size = 5
   min_size = 1
-
+  #  availability_zones = [var.az]
+  vpc_zone_identifier = [data.tfe_outputs.network.values.public_subnet[1]]
   launch_template {
     id      = aws_launch_template.startup_template.id
     version = "$Latest"
   }
+
+
 }

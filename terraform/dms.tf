@@ -40,7 +40,7 @@ resource "aws_dms_replication_subnet_group" "rp_subnet_grp" {
 
 # Creates a new replication instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {
-  count                       = 0           # prevent dms replication instance creation as migration is complete
+  count                       = 0 # prevent dms replication instance creation as migration is complete
   allocated_storage           = 10
   apply_immediately           = true
   multi_az                    = false
@@ -72,22 +72,22 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
 }
 
 # Creates a source endpoint - webserver
-resource "aws_dms_endpoint" "ec2" {
-  database_name = "mvp"
-  endpoint_id   = "webserver"
-  endpoint_type = "source"
-  engine_name   = "postgres"
-  password      = var.db_password
-  port          = 5432
-  server_name   = aws_instance.web_server.private_ip
-  ssl_mode      = "none"
+# resource "aws_dms_endpoint" "ec2" {
+#   database_name = "mvp"
+#   endpoint_id   = "webserver"
+#   endpoint_type = "source"
+#   engine_name   = "postgres"
+#   password      = var.db_password
+#   port          = 5432
+#   server_name   = aws_instance.web_server.private_ip
+#   ssl_mode      = "none"
 
-  tags = {
-    Name = "mvp-devops"
-  }
+#   tags = {
+#     Name = "mvp-devops"
+#   }
 
-  username = var.db_username
-}
+#   username = var.db_username
+# }
 # Creates a target endpoint - RDS
 resource "aws_dms_endpoint" "rds" {
   database_name = "mvp"
@@ -107,18 +107,18 @@ resource "aws_dms_endpoint" "rds" {
 }
 
 # Create a new DMS replication task
-resource "aws_dms_replication_task" "dblink" {
-  count          = 0                  # prevent dms replication task creation as migration is complete
-  migration_type = "full-load"
+# resource "aws_dms_replication_task" "dblink" {
+#   count          = 0 # prevent dms replication task creation as migration is complete
+#   migration_type = "full-load"
 
-  #replication_instance_arn = "${aws_dms_replication_instance.link.replication_instance_arn}"
-  replication_instance_arn = aws_dms_replication_instance.dms_replication_instance[count.index].replication_instance_arn
-  replication_task_id      = var.replication_task_id
-  source_endpoint_arn      = aws_dms_endpoint.ec2.endpoint_arn
-  table_mappings           = file("table-mappings.json")
-  target_endpoint_arn      = aws_dms_endpoint.rds.endpoint_arn
+#   #replication_instance_arn = "${aws_dms_replication_instance.link.replication_instance_arn}"
+#   replication_instance_arn = aws_dms_replication_instance.dms_replication_instance[count.index].replication_instance_arn
+#   replication_task_id      = var.replication_task_id
+#   source_endpoint_arn      = aws_dms_endpoint.ec2.endpoint_arn
+#   table_mappings           = file("table-mappings.json")
+#   target_endpoint_arn      = aws_dms_endpoint.rds.endpoint_arn
 
-  tags = {
-    Name = "mvp-devops"
-  }
-}
+#   tags = {
+#     Name = "mvp-devops"
+#   }
+# }
