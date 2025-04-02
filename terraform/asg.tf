@@ -24,8 +24,9 @@ resource "aws_launch_template" "startup_template" {
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "startup_asg" {
-  max_size = 5
-  min_size = 1
+  desired_capacity = 1
+  max_size         = 5
+  min_size         = 1
   #  availability_zones = [var.az]
   vpc_zone_identifier = [data.tfe_outputs.network.values.public_subnet[1]]
   launch_template {
@@ -36,9 +37,9 @@ resource "aws_autoscaling_group" "startup_asg" {
 
 }
 resource "aws_autoscaling_policy" "as_policy" {
-  autoscaling_group_name = aws_autoscaling_group.startup_asg.name
-  name                   = "scalingPolicy"
-  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name    = aws_autoscaling_group.startup_asg.name
+  name                      = "scalingPolicy"
+  policy_type               = "TargetTrackingScaling"
   estimated_instance_warmup = 60
   target_tracking_configuration {
     predefined_metric_specification {
