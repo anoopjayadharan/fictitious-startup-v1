@@ -35,3 +35,16 @@ resource "aws_autoscaling_group" "startup_asg" {
 
 
 }
+resource "aws_autoscaling_policy" "as_policy" {
+  autoscaling_group_name = aws_autoscaling_group.startup_asg.name
+  name                   = "scalingPolicy"
+  policy_type            = "TargetTrackingScaling"
+  estimated_instance_warmup = 60
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 60.0
+  }
+}
