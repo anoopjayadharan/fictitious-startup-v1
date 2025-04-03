@@ -34,7 +34,7 @@ resource "aws_autoscaling_group" "startup_asg" {
     version = "$Latest"
   }
 
-
+  target_group_arns = [aws_lb_target_group.alb_tg_mvp.arn]
 }
 resource "aws_autoscaling_policy" "as_policy" {
   autoscaling_group_name    = aws_autoscaling_group.startup_asg.name
