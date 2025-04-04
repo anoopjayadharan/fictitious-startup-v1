@@ -8,7 +8,7 @@ resource "aws_launch_template" "startup_template" {
     name = aws_iam_instance_profile.connectEC2_profile.name
   }
   monitoring {
-    enabled = true
+    enabled = false # Disables detailed monitoring
   }
   network_interfaces {
     associate_public_ip_address = true
@@ -17,17 +17,14 @@ resource "aws_launch_template" "startup_template" {
   placement {
     availability_zone = var.az
   }
-
-  #  vpc_security_group_ids = [aws_security_group.allow_http.id]
-
+  update_default_version = true
 }
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "startup_asg" {
-  desired_capacity = 1
-  max_size         = 5
-  min_size         = 1
-  #  availability_zones = [var.az]
+  desired_capacity    = 1
+  max_size            = 5
+  min_size            = 1
   vpc_zone_identifier = [data.tfe_outputs.network.values.public_subnet[1]]
   launch_template {
     id      = aws_launch_template.startup_template.id

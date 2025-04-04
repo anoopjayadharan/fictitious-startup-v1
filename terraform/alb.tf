@@ -27,13 +27,6 @@ resource "aws_lb_target_group" "alb_tg_mvp" {
 
 }
 
-# # ALB registration to Target Group
-# resource "aws_lb_target_group_attachment" "lb_register_tg" {
-#   target_group_arn = aws_lb_target_group.alb_tg_mvp.arn
-#   target_id        = aws_instance
-#   port             = 80
-# }
-
 # ALB Listener Resource
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.mvp_alb.arn
