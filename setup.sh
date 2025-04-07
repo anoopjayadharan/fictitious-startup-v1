@@ -158,7 +158,7 @@ EOF
 #################################################################################################
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:$APP_DIR/cloudwatch-config.json
 
-sudo systemctl enable amazon-cloudwatch-agent.service
+sudo systemctl enable amazon-cloudwatch-agent.service --now
 
 # Print completion message
 echo "CloudWatch Agent Installation complete"
