@@ -111,3 +111,54 @@ sudo ufw allow http
 
 # Print completion message
 echo "Django application setup complete!"
+
+#################################################################################################
+# Download and Install CloudWatch Agent
+#
+# Relevant link: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/download-cloudwatch-agent-commandline.html
+#################################################################################################
+sudo wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+
+sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
+
+#################################################################################################
+# Create the CloudWatch Agent configuration file
+#
+# Relevant link: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-cloudwatch-agent-configuration-file.html
+#################################################################################################
+cat > $APP_DIR/cloudwatch-config.json <<EOF
+{
+"agent": {
+   "metrics_collection_interval": 60,
+   "region": "eu-west-1"
+  },
+"metrics": {
+    "append_dimensions": {
+    "ImageId": "${aws:ImageId}",
+    "InstanceId": "${aws:InstanceId}",
+    "InstanceType": "${aws:InstanceType}",
+    "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
+  },
+  "metrics_collected": {
+  "mem": {
+      "measurement": [
+          { "name": "used_percent", "rename": "MEM_USAGE_PERCENT", "unit": "Percent" }
+        ]
+      }
+
+    }
+  }
+}
+EOF
+
+#################################################################################################
+# Start CloudWatch Agent using the file "/opt/app/cloudwatch-config.json"
+#
+# Enabl amazon-cloudwatch-agent.service unit file
+#################################################################################################
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:$APP_DIR/cloudwatch-config.json
+
+sudo systemctl enable amazon-cloudwatch-agent.service
+
+# Print completion message
+echo "CloudWatch Agent Installation complete"
