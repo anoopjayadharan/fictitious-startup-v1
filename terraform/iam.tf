@@ -81,6 +81,11 @@ resource "aws_iam_role_policy_attachment" "policy-attach-ssm-parameter" {
   policy_arn = aws_iam_policy.ec2_ssm_parameter_policy.arn
 }
 
+# Attache 'CloudWatchAgentServerPolicy' policy to the 'ConnectEC2' role
+resource "aws_iam_role_policy_attachment" "cw-policy-attach" {
+  role       = aws_iam_role.ec2_ssm.name
+  policy_arn = var.CloudWatchAgentServerPolicy_arn
+}
 
 
 

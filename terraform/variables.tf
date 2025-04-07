@@ -25,3 +25,4 @@ variable "secret_key" {}
 variable "sg_postgres" {}
 variable "replication_task_id" {}
 variable "s3_name" {}
+variable "CloudWatchAgentServerPolicy_arn" {}
