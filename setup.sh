@@ -138,15 +138,15 @@ cat > $APP_DIR/cloudwatch-config.json <<EOF
       "InstanceId": "\${aws:InstanceId}",
       "InstanceType": "\${aws:InstanceType}",
       "AutoScalingGroupName": "\${aws:AutoScalingGroupName}"
-      }
-    },
-    "metrics_collected": {
+      },
+        "metrics_collected": {
     "mem": {
         "measurement": [
             { "name": "used_percent", "rename": "MEM_USAGE_PERCENT", "unit": "Percent" }
           ]
         }
-    },
+      }
+  },
     "logs": {
         "logs_collected": {
           "files": {
@@ -162,8 +162,6 @@ cat > $APP_DIR/cloudwatch-config.json <<EOF
       }
     }
 }
-
-
 EOF
 
 #################################################################################################
