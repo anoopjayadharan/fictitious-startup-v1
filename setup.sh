@@ -134,10 +134,10 @@ cat > $APP_DIR/cloudwatch-config.json <<EOF
     },
   "metrics": {
       "append_dimensions": {
-      "ImageId": "${aws:ImageId}",
-      "InstanceId": "${aws:InstanceId}",
-      "InstanceType": "${aws:InstanceType}",
-      "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
+      "ImageId": "\${aws:ImageId}",
+      "InstanceId": "\${aws:InstanceId}",
+      "InstanceType": "\${aws:InstanceType}",
+      "AutoScalingGroupName": "\${aws:AutoScalingGroupName}"
     },
     "metrics_collected": {
     "mem": {
