@@ -128,27 +128,27 @@ sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 #################################################################################################
 cat > $APP_DIR/cloudwatch-config.json <<EOF
 {
-"agent": {
-   "metrics_collection_interval": 60,
-   "region": "eu-west-1"
-  },
-"metrics": {
-    "append_dimensions": {
-    "ImageId": "${aws:ImageId}",
-    "InstanceId": "${aws:InstanceId}",
-    "InstanceType": "${aws:InstanceType}",
-    "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
-  },
-  "metrics_collected": {
-  "mem": {
-      "measurement": [
-          { "name": "used_percent", "rename": "MEM_USAGE_PERCENT", "unit": "Percent" }
-        ]
+  "agent": {
+     "metrics_collection_interval": 60,
+     "region": "eu-west-1"
+    },
+  "metrics": {
+      "append_dimensions": {
+      "ImageId": "${aws:ImageId}",
+      "InstanceId": "${aws:InstanceId}",
+      "InstanceType": "${aws:InstanceType}",
+      "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
+    },
+    "metrics_collected": {
+    "mem": {
+        "measurement": [
+            { "name": "used_percent", "rename": "MEM_USAGE_PERCENT", "unit": "Percent" }
+          ]
+        }
+  
       }
-
     }
   }
-}
 EOF
 
 #################################################################################################
