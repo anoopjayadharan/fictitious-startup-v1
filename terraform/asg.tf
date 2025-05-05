@@ -8,7 +8,7 @@ resource "aws_launch_template" "startup_template" {
     name = aws_iam_instance_profile.connectEC2_profile.name
   }
   monitoring {
-    enabled = true # Disables detailed monitoring
+    enabled = false # Disables detailed monitoring
   }
   network_interfaces {
     associate_public_ip_address = true
