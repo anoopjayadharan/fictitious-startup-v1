@@ -19,7 +19,7 @@ resource "aws_cloudwatch_log_metric_filter" "log_metric" {
 }
 # Provides a CloudWatch Metric Alarm resource for EC2
 resource "aws_cloudwatch_metric_alarm" "startup_ec2_cpu" {
-  alarm_name                = "ec2-cpu-threshold"
+  alarm_name                = "EC2-CPUUtilization"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 2
   metric_name               = "CPUUtilization"
@@ -34,7 +34,7 @@ resource "aws_cloudwatch_metric_alarm" "startup_ec2_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "startup_ec2_mem" {
-  alarm_name                = "ec2-memory-threshold"
+  alarm_name                = "EC2-MemoryUsage"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 2
   metric_name               = "MEM_USAGE_PERCENT"
@@ -49,7 +49,7 @@ resource "aws_cloudwatch_metric_alarm" "startup_ec2_mem" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "startup_rds_cpu" {
-  alarm_name                = "rds-cpu-threshold"
+  alarm_name                = "RDS-CPUUtilization"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 2
   metric_name               = "CPUUtilization"
