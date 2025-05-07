@@ -67,3 +67,115 @@ resource "aws_cloudwatch_metric_alarm" "startup_rds_cpu" {
 resource "aws_sns_topic" "email_notification" {
   name = "email-notification-topic"
 }
+# Provides a CloudWatch Dashboard resource
+resource "aws_cloudwatch_dashboard" "startup_dashboard" {
+  dashboard_name = "my-dashboard"
+
+  dashboard_body = jsonencode({
+    "widgets" : [
+      {
+        "height" : 6,
+        "width" : 6,
+        "y" : 0,
+        "x" : 6,
+        "type" : "metric",
+        "properties" : {
+          "view" : "gauge",
+          "metrics" : [
+            ["CWAgent", "MEM_USAGE_PERCENT", "InstanceId", "i-0c3955ed1a09a7352", "AutoScalingGroupName", "terraform-20250401173614910900000001", "ImageId", "ami-0edccc416bb0405e8", "InstanceType", "t2.micro"]
+          ],
+          "region" : "eu-west-1",
+          "yAxis" : {
+            "left" : {
+              "min" : 1,
+              "max" : 100
+            }
+          },
+          "title" : "EC2-MEM_USAGE_PERCENT"
+        }
+      },
+      {
+        "height" : 6,
+        "width" : 12,
+        "y" : 5,
+        "x" : 12,
+        "type" : "metric",
+        "properties" : {
+          "sparkline" : true,
+          "view" : "timeSeries",
+          "metrics" : [
+            ["AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/mvp-alb/8df537cbd1c7a66b", { "region" : "eu-west-1" }],
+            [".", "ConsumedLCUs", ".", ".", { "region" : "eu-west-1" }]
+          ],
+          "region" : "eu-west-1",
+          "stacked" : false,
+          "setPeriodToTimeRange" : false,
+          "liveData" : false,
+          "period" : 300,
+          "title" : "ALB- ConsumedLCUs, RequestCount"
+        }
+      },
+      {
+        "height" : 6,
+        "width" : 6,
+        "y" : 0,
+        "x" : 0,
+        "type" : "metric",
+        "properties" : {
+          "metrics" : [
+            ["AWS/EC2", "CPUUtilization", { "visible" : false, "region" : "eu-west-1" }],
+            [".", ".", "InstanceId", "i-0c3955ed1a09a7352", { "region" : "eu-west-1" }]
+          ],
+          "view" : "timeSeries",
+          "stacked" : false,
+          "region" : "eu-west-1",
+          "period" : 300,
+          "stat" : "Average",
+          "title" : "EC2-CPUUtilization"
+        }
+      },
+      {
+        "height" : 5,
+        "width" : 12,
+        "y" : 0,
+        "x" : 12,
+        "type" : "metric",
+        "properties" : {
+          "view" : "singleValue",
+          "stacked" : false,
+          "metrics" : [
+            ["AWS/AutoScaling", "GroupInServiceCapacity", "AutoScalingGroupName", "terraform-20250401173614910900000001", { "region" : "eu-west-1" }]
+          ],
+          "region" : "eu-west-1",
+          "period" : 300,
+          "yAxis" : {
+            "left" : {
+              "min" : 1,
+              "max" : 5
+            }
+          },
+          "title" : "ASG-GroupInServiceCapacity"
+        }
+      },
+      {
+        "type" : "metric",
+        "x" : 0,
+        "y" : 6,
+        "width" : 12,
+        "height" : 5,
+        "properties" : {
+          "view" : "singleValue",
+          "stacked" : false,
+          "metrics" : [
+            ["AWS/RDS", "CPUUtilization", "DBInstanceIdentifier", "terraform-20241125065503498700000004", { "period" : 60 }],
+            [".", "DatabaseConnections", ".", ".", { "period" : 60 }],
+            [".", "FreeableMemory", ".", ".", { "period" : 60 }],
+            [".", "FreeStorageSpace", ".", ".", { "period" : 60 }]
+          ],
+          "region" : "eu-west-1",
+          "title" : "RDS- CPUUtilization, DatabaseConnections, FreeStorageSpace, FreeableMemory"
+        }
+      }
+    ]
+  })
+}
