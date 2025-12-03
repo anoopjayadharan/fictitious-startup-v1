@@ -16,25 +16,29 @@ jobs:
           run:
             working-directory: terraform
         steps:
+            # Step 1 - Checkout Repository
             - name: Checkout Repository
               uses: actions/checkout@v4
 
+            # Step 2 - Install terraform '1.9.8'
             - name: Terraform Workflow
               uses: hashicorp/setup-terraform@v3
               with:
-                terraform_version: "1.9.7"
-                cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}     # API_TOKEN for HCP Terraform
+                terraform_version: "1.9.8"
+                cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}     # API_TOKEN for HCP Terrafom
 
+            # Step 3 - Terraform init
             - name: Terraform Init
               id: init
               run: terraform init
 
-            - name: Terraform PLan
+            # Step 4 - Terraform plan
+            - name: Terraform Plan
               id: plan
-              run: terraform plan
+              run: terraform plan -var "custom_ami_version=${{ inputs.ami_version }}" -no-color
               continue-on-error: true
 
+            # Step 5 - Terraform Destroy, set variable ami_version
             - name: Terraform Destroy
-              id: destroy
-              run: terraform destroy -auto-approve
-              continue-on-error: true
+              id: Destroy
+              run: terraform destroy -var "custom_ami_version=${{ inputs.ami_version }}" -auto-approve
