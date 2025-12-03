@@ -3,6 +3,10 @@ name: Terraform Destroy
 
 on: 
     workflow_dispatch:
+        inputs:             # provide ami_version as an input
+            ami_version:
+                description: 'AMI version'
+                required: true
 
 
 env:
