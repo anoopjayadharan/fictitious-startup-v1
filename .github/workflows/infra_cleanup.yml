@@ -1,0 +1,40 @@
+
+name: Terraform Destroy
+
+on: 
+    workflow_dispatch:
+
+
+env:
+  AWS_REGION : "eu-west-1"    # AWS region where resources are deployed
+
+jobs:
+    cleanup_job:
+        name: Clean-Up
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: terraform
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Terraform Workflow
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: "1.9.7"
+                cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}     # API_TOKEN for HCP Terraform
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            - name: Terraform PLan
+              id: plan
+              run: terraform plan
+              continue-on-error: true
+
+            - name: Terraform Destroy
+              id: destroy
+              run: terraform destroy -auto-approve
+              continue-on-error: true
